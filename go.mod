@@ -2,7 +2,7 @@ module github.com/Yangiboev/go-kratos-test
 
 go 1.19
 
-require github.com/ory/kratos-client-go v0.10.1
+require github.com/ory/kratos-client-go v0.11.0
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
