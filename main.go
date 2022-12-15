@@ -44,7 +44,7 @@ func main() {
 	http.HandleFunc("/login", s.ensureCookieFlowID("login", s.handleLogin))
 	http.HandleFunc("/logout", s.handleLogout)
 	http.HandleFunc("/error", s.handleError)
-	http.HandleFunc("/registration", s.ensureCookieFlowID("registration", s.handleRegister))
+	http.HandleFunc("/registration", s.handleRegister)
 	http.HandleFunc("/verification", s.ensureCookieFlowID("verification", s.handleVerification))
 	http.HandleFunc("/registered", ensureCookieReferer(s.handleRegistered))
 	http.HandleFunc("/dashboard", s.handleDashboard)
@@ -116,9 +116,9 @@ func (s *server) handleError(w http.ResponseWriter, r *http.Request) {
 }
 
 // handleRegister handles kratos registration flow
-func (s *server) handleRegister(w http.ResponseWriter, r *http.Request, cookie, flowID string) {
+func (s *server) handleRegister(w http.ResponseWriter, r *http.Request) {
 	// get the registration flow
-	identity, _, err := s.KratosAPIClient.FrontendApi.CreateBrowserRegistrationFlow(ctx).Execute()
+	identity, _, err := s.KratosAPIClient.IdentityApi.CreateIdentity(r.Context()).Execute()
 	if err != nil {
 		writeError(w, http.StatusUnauthorized, err)
 		return
